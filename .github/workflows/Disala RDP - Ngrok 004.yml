@@ -1,0 +1,32 @@
+name: Disala RDP - Ngrok 004
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 9999
+    
+    steps:
+      - name: Downloading Essentials
+        run: |
+          Invoke-WebRequest -Uri https://www.dropbox.com/s/3hi5yg7sfatkap0/Downloads.bat?dl=1 -OutFile Downloads.bat
+          cmd /c Downloads.bat
+
+      - name: Connecting Ngrok Account
+        run: ngrok config add-authtoken $Env:NGROK_AUTH_TOKEN
+        env:
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN_004 }}
+          
+      - name: Enabling RDP Access
+        run: cmd /c Acess.bat
+
+      - name: Upload Softwares 
+        run: cmd /c Uploads.bat        
+
+      - name: Log In To Remote Desktop Protocol
+        run: cmd /c start.bat
+
+      - name: Time Count
+        run: cmd /c loop.bat
